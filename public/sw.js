@@ -73,7 +73,6 @@ self.addEventListener('install', async (event) => {
 if (workbox.navigationPreload.isSupported()) {
   workbox.navigationPreload.enable();
 }
-
 self.addEventListener('fetch', (event) => {
   if (event.request.mode === 'navigate') {
     event.respondWith((async () => {
@@ -86,8 +85,8 @@ self.addEventListener('fetch', (event) => {
 
         const networkResp = await fetch(event.request);
 
-        // Cache API responses if they are successful
-        if (event.request.url.includes("/users") && networkResp.status === 200) {
+        // Cache API responses if they are successful and the URL matches '/users'
+        if (event.request.url.includes('/users') && networkResp.status === 200) {
           const cache = await caches.open(CACHE_NAME_API);
           cache.put(event.request, networkResp.clone());
         }
@@ -105,3 +104,4 @@ self.addEventListener('fetch', (event) => {
     // By default, they will be served from the browser's cache.
   }
 });
+
