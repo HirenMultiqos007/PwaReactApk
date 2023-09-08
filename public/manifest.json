@@ -474,5 +474,6 @@
   ],
   "share_target": {
     "method": "GET"
-  }
+  },
+  "iarc_rating_id": "Ages 3+"
 }
