@@ -6,7 +6,7 @@ function Header() {
   return (
     <>
     <header>
-      <h1>Hitesh</h1>
+      <h1>Hiren Patel</h1>
       <nav>
         <ul>
           <li><Link to="/">Home</Link></li>
