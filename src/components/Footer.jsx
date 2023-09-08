@@ -13,7 +13,7 @@ const Footer = () => {
     },[])
   return (
     <div>
-    {mode === "offline" && (
+    {!mode && (
       <div>
         <Alert variant="warning">
           <Alert.Heading>You are in Offline mode</Alert.Heading>
