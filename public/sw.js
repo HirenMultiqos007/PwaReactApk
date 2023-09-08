@@ -1,49 +1,47 @@
-// const cacheData = 'appV1';
+// This is the "Offline page" service worker
 
-// this.addEventListener('install', (event) => {
-//   event.waitUntil(
-//     caches.open(cacheData).then((cache) => {
-//       // You don't need to add anything to cache during installation
-//       return;
-//     })
-//   );
-// });
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
-// this.addEventListener('fetch', (event) => {
-//   event.respondWith(
-//     caches.match(event.request).then((cachedResponse) => {
-//       if (cachedResponse) {
-//         // If a cached response is found, return it
-//         return cachedResponse;
-//       }
+const CACHE = "pwabuilder-page";
 
-//       // If not found in cache, fetch the request from the network
-//       return fetch(event.request).then((response) => {
-//         // Clone the response to store it in the cache
-//         const clonedResponse = response.clone();
+// TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
+const offlineFallbackPage = "ToDo-replace-this-name.html";
 
-//         caches.open(cacheData).then((cache) => {
-//           cache.put(event.request, clonedResponse);
-//         });
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
 
-//         return response;
-//       }).catch(() => {
-//         // If fetch fails (e.g., when offline), you can return a custom offline page or a fallback response
-//         // For example:
-//         return caches.match('/offline.html'); // Replace with your offline page URL
-//       });
-//     })
-//   );
-// });
-// install service worker
-// self.addEventListener("install", (evt) => {
-//   console.log("service worker has been installed");
-// });
-// //active service worker
-// self.addEventListener("activate", (evt) => {
-//   console.log("service worker has been activated");
-// });
-// // fetch event
-// self.addEventListener("fetch", (evt) => {
-//   console.log("fetch event", evt);
-// });
+self.addEventListener('install', async (event) => {
+  event.waitUntil(
+    caches.open(CACHE)
+      .then((cache) => cache.add(offlineFallbackPage))
+  );
+});
+
+if (workbox.navigationPreload.isSupported()) {
+  workbox.navigationPreload.enable();
+}
+
+self.addEventListener('fetch', (event) => {
+  if (event.request.mode === 'navigate') {
+    event.respondWith((async () => {
+      try {
+        const preloadResp = await event.preloadResponse;
+
+        if (preloadResp) {
+          return preloadResp;
+        }
+
+        const networkResp = await fetch(event.request);
+        return networkResp;
+      } catch (error) {
+
+        const cache = await caches.open(CACHE);
+        const cachedResp = await cache.match(offlineFallbackPage);
+        return cachedResp;
+      }
+    })());
+  }
+});
