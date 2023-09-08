@@ -25,6 +25,19 @@ if (workbox.navigationPreload.isSupported()) {
   workbox.navigationPreload.enable();
 }
 
+self.addEventListener("fetch", (event) => {
+  if(!navigator.onLine){
+      event.respondWith(
+        caches.match(event.request).then((result) => {
+          if (result) {
+            return result;
+          }
+          let requestUrl = event.request.clone();
+          return fetch(requestUrl);
+        })
+      );
+  }
+});
 // self.addEventListener('fetch', (event) => {
 //   if (event.request.mode === 'navigate') {
 //     event.respondWith((async () => {
@@ -47,32 +60,32 @@ if (workbox.navigationPreload.isSupported()) {
 //   }
 // });
 
-self.addEventListener("fetch", (event) => {
-    if(!navigator.onLine){
-        event.respondWith(
-          caches.match(event.request).then((cachedResponse) => {
-            if (cachedResponse) {
-              return cachedResponse;
-            }
+// self.addEventListener("fetch", (event) => {
+//     if(!navigator.onLine){
+//         event.respondWith(
+//           caches.match(event.request).then((cachedResponse) => {
+//             if (cachedResponse) {
+//               return cachedResponse;
+//             }
 
-            // If the request is not in cache, fetch it from the network
-            return fetch(event.request)
-              .then((response) => {
-                // Clone the response as it can only be consumed once
-                const responseClone = response.clone();
+//             // If the request is not in cache, fetch it from the network
+//             return fetch(event.request)
+//               .then((response) => {
+//                 // Clone the response as it can only be consumed once
+//                 const responseClone = response.clone();
 
-                // Cache the response for future requests
-                caches.open(CACHE).then((cache) => {
-                  cache.put(event.request, responseClone);
-                });
+//                 // Cache the response for future requests
+//                 caches.open(CACHE).then((cache) => {
+//                   cache.put(event.request, responseClone);
+//                 });
 
-                return response;
-              })
-              .catch((error) => {
-                console.log(error)
-            //   return  caches.match(event.request)
-              });
-          })
-        );
-    }
-  });
+//                 return response;
+//               })
+//               .catch((error) => {
+//                 console.log(error)
+//             //   return  caches.match(event.request)
+//               });
+//           })
+//         );
+//     }
+//   });
