@@ -8,11 +8,11 @@ const CACHE = "Data";
 const offlineFallbackPage = [`/`];
 
 
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
-});
+// self.addEventListener("message", (event) => {
+//   if (event.data && event.data.type === "SKIP_WAITING") {
+//     self.skipWaiting();
+//   }
+// });
 
 self.addEventListener('install', async (event) => {
   event.waitUntil(
@@ -21,9 +21,9 @@ self.addEventListener('install', async (event) => {
   );
 });
 
-if (workbox.navigationPreload.isSupported()) {
-  workbox.navigationPreload.enable();
-}
+// if (workbox.navigationPreload.isSupported()) {
+//   workbox.navigationPreload.enable();
+// }
 
 self.addEventListener("fetch", (event) => {
   if(!navigator.onLine){

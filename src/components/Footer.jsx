@@ -4,6 +4,13 @@ import { Alert } from 'react-bootstrap';
 const Footer = () => {
     const [mode, setMode] = useState(true);
     useEffect(()=> {
+      window.addEventListener('load', function(e) {
+        if (navigator.onLine) {
+          setMode(true)
+        } else {
+          setMode(false)
+        }
+      }, false);
       window.addEventListener(`online`, (e) => {
         setMode(true)
       })

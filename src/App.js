@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Footer from "./components/Footer"
 function App() {
+  console.log(navigator.onLine,"navigator.onLine")
   return (
     <div className="App">
       {/* <Header />
