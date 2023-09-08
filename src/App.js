@@ -13,6 +13,7 @@ function App() {
       <Banner />
       <Services />
       <Contact /> */}
+      
       <Routes>
         <Route element={<Header/>}>
           <Route path='/' element={<Home/>} />

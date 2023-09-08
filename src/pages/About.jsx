@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Alert, Table } from "react-bootstrap";
 const About = () => {
   const [data, setData] = useState([]);
-  const [mode, setMode] = useState("online");
   useEffect(() => {
     let url = "https://jsonplaceholder.typicode.com/users";
     fetch(url)
@@ -14,9 +13,8 @@ const About = () => {
       })
       .catch((error) => {
         console.error("Fetch error:", error);
-        let finaldata = localStorage.getItem("users");
+        // let finaldata = localStorage.getItem("users");
         setData(JSON.parse(finaldata));
-        setMode("offline");
       });
   }, []);
 
