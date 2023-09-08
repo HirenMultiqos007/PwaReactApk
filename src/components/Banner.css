@@ -1,0 +1,16 @@
+/* src/components/Banner.css */
+.banner {
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    padding: 60px 0;
+  }
+  
+  .banner h2 {
+    font-size: 36px;
+  }
+  
+  .banner p {
+    font-size: 18px;
+  }
+  
