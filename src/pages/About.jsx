@@ -14,20 +14,13 @@ const About = () => {
       .catch((error) => {
         console.error("Fetch error:", error);
         // let finaldata = localStorage.getItem("users");
-        setData(JSON.parse(finaldata));
+        // setData(JSON.parse(finaldata));
       });
   }, []);
 
   return (
     <div>
     <div>
-      {mode === "offline" && (
-        <div>
-          <Alert variant="warning">
-            <Alert.Heading>You are in Offline mode</Alert.Heading>
-          </Alert>
-        </div>
-      )}
     </div>
     <Table striped bordered hover size="sm">
       <thead>
