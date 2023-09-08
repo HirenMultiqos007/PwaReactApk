@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Alert } from 'react-bootstrap';
-const footer = () => {
+
+const Footer = () => {
     const [mode, setMode] = useState(true);
     useEffect(()=> {
       window.addEventListener(`online`, (e) => {
@@ -23,4 +24,4 @@ const footer = () => {
   )
 }
 
-export default footer
+export default Footer
